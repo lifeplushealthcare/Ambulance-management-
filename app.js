@@ -5,20 +5,32 @@ const analysis = document.getElementById('analysis');
 const financialRecords = document.getElementById('financialRecords');
 const tripTracker = document.getElementById('tripTracker');
 const patientAnalysis = document.getElementById('patientAnalysis');
-const adminPanel = document.getElementById('adminPanel');
 
 // Navigation
-document.getElementById('homeLink').addEventListener('click', showHome);
-document.getElementById('tripRecorderLink').addEventListener('click', showTripRecorder);
-document.getElementById('analysisLink').addEventListener('click', showAnalysis);
-document.getElementById('financialRecordsLink').addEventListener('click', showFinancialRecords);
-document.getElementById('tripTrackerLink').addEventListener('click', showTripTracker);
-document.getElementById('patientAnalysisLink').addEventListener('click', showPatientAnalysis);
-document.getElementById('adminLink').addEventListener('click', showAdminPanel);
+const navLinks = {
+    home: document.getElementById('homeLink'),
+    tripRecorder: document.getElementById('tripRecorderLink'),
+    analysis: document.getElementById('analysisLink'),
+    financialRecords: document.getElementById('financialRecordsLink'),
+    tripTracker: document.getElementById('tripTrackerLink'),
+    patientAnalysis: document.getElementById('patientAnalysisLink'),
+};
+
+Object.entries(navLinks).forEach(([key, link]) => {
+    link.addEventListener('click', () => {
+        hideAllSections();
+        showSection(key);
+    });
+});
 
 // Trip Recorder
 document.getElementById('tripForm').addEventListener('submit', (e) => {
     e.preventDefault();
+    recordTrip();
+});
+
+// Function to Record Trip
+function recordTrip() {
     const tripData = {
         id: Date.now(),
         patientName: document.getElementById('patientName').value,
@@ -52,14 +64,37 @@ document.getElementById('tripForm').addEventListener('submit', (e) => {
 
     alert('Trip recorded successfully!');
     document.getElementById('tripForm').reset();
-});
+}
+
+// Function to Show Sections
+function showSection(sectionKey) {
+    switch (sectionKey) {
+        case 'home':
+            mainContent.style.display = 'block';
+            break;
+        case 'tripRecorder':
+            tripRecorder.style.display = 'block';
+            break;
+        case 'analysis':
+            showAnalysis();
+            break;
+        case 'financialRecords':
+            showFinancialRecords();
+            break;
+        case 'tripTracker':
+            tripTracker.style.display = 'block';
+            break;
+        case 'patientAnalysis':
+            patientAnalysis.style.display = 'block';
+            break;
+        default:
+            mainContent.style.display = 'block';
+    }
+}
 
 // Analysis
 function showAnalysis() {
-    hideAllSections();
-    analysis.style.display = 'block';
-    
-    let trips = JSON.parse(localStorage.getItem('trips')) || [];
+    const trips = JSON.parse(localStorage.getItem('trips')) || [];
     let totalIncome = 0;
     let totalExpenditure = 0;
     let tripData = [];
@@ -83,23 +118,30 @@ function showAnalysis() {
         <p>Net Profit: ₹${netProfit.toFixed(2)}</p>
     `;
 
-    // Create chart
+    createChart(tripData);
+}
+
+// Function to Create Chart
+function createChart(tripData) {
     const ctx = document.getElementById('incomeChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
             labels: tripData.map(trip => trip.date.toLocaleDateString()),
-            datasets: [{
-                label: 'Income',
-                data: tripData.map(trip => trip.income),
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }, {
-                label: 'Expenditure',
-                data: tripData.map(trip => trip.expenditure),
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }]
+            datasets: [
+                {
+                    label: 'Income',
+                    data: tripData.map(trip => trip.income),
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }, 
+                {
+                    label: 'Expenditure',
+                    data: tripData.map(trip => trip.expenditure),
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }
+            ]
         },
         options: {
             responsive: true,
@@ -112,12 +154,10 @@ function showAnalysis() {
     });
 }
 
+// Function to Show Financial Records
 function showFinancialRecords() {
-    hideAllSections();
-    financialRecords.style.display = 'block';
-    
-    let trips = JSON.parse(localStorage.getItem('trips')) || [];
-    let recordsHTML = '<table class="styled-table"><tr><th>Date</th><th>Amount Charged</th><th>Total Expenditure</th></tr>';
+    const trips = JSON.parse(localStorage.getItem('trips')) || [];
+    let recordsHTML = '<h3>Financial Records</h3><table class="styled-table"><tr><th>Date</th><th>Amount Charged</th><th>Total Expenditure</th></tr>';
     
     trips.forEach((trip) => {
         const totalExpenditure = Object.values(trip.expenditure).reduce((sum, value) => sum + parseFloat(value), 0);
@@ -139,27 +179,5 @@ function hideAllSections() {
     sections.forEach(section => section.style.display = 'none');
 }
 
-function showHome() {
-    hideAllSections();
-    mainContent.style.display = 'block';
-}
-
-function showTripRecorder() {
-    hideAllSections();
-    tripRecorder.style.display = 'block';
-}
-
-function showTripTracker() {
-    hideAllSections();
-    tripTracker.style.display = 'block';
-}
-
-function showPatientAnalysis() {
-    hideAllSections();
-    patientAnalysis.style.display = 'block';
-}
-
-function showAdminPanel() {
-    hideAllSections();
-    adminPanel.style.display = 'block';
-}
+// Initialize by showing the home section
+showSection('home');
