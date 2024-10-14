@@ -10,13 +10,24 @@
 <body>
     <div class="container">
         <h1>Ambulance Trip Manager</h1>
+        <nav>
+            <ul>
+                <li><a href="#tripForm">New Trip</a></li>
+                <li><a href="#analysisSection">Analysis</a></li>
+                <li><a href="#allTripsSection">All Trips</a></li>
+                <li><a href="#financialRecords">Financial Records</a></li>
+                <li><a href="#tripTracking">Trip Tracking</a></li>
+                <li><a href="#patientAnalysis">Patient Analysis</a></li>
+            </ul>
+        </nav>
+        
         <form id="tripForm">
-            <h2>Patient Details</h2>
+            <h2>New Trip</h2>
             <label for="patientName">Patient Name:</label>
             <input type="text" id="patientName" required>
             
             <label for="patientDetails">Patient Details:</label>
-            <input type="text" id="patientDetails" required>
+            <textarea id="patientDetails" required></textarea>
             
             <label for="fromCity">From (City):</label>
             <input type="text" id="fromCity" required>
@@ -83,27 +94,46 @@
             <button type="button" id="cancelTrip">Cancel Trip</button>
         </form>
         
-        <h2>Trip Analysis</h2>
-        <div id="analysisResult"></div>
+        <div id="analysisSection">
+            <h2>Trip Analysis</h2>
+            <div id="analysisResult"></div>
+            <canvas id="incomeExpenditureChart"></canvas>
+        </div>
         
-        <canvas id="incomeExpenditureChart"></canvas>
-
-        <h2>All Trips</h2>
-        <table id="tripTable">
-            <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Amount Charged</th>
-                    <th>Expenditure</th>
-                </tr>
-            </thead>
-            <tbody id="tripData">
-            </tbody>
-        </table>
+        <div id="allTripsSection">
+            <h2>All Trips</h2>
+            <table id="tripTable">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Amount Charged</th>
+                        <th>Expenditure</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tripData">
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="financialRecords">
+            <h2>Financial Records</h2>
+            <div id="financialAnalysis"></div>
+        </div>
+        
+        <div id="tripTracking">
+            <h2>Trip Tracking</h2>
+            <div id="tripTrackingData"></div>
+        </div>
+        
+        <div id="patientAnalysis">
+            <h2>Patient Analysis</h2>
+            <div id="patientAnalysisData"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html>
+    </html>
