@@ -13,13 +13,11 @@
     <header>
         <nav>
             <ul>
-                <li><a href="#" id="homeLink">Home</a></li>
                 <li><a href="#" id="tripRecorderLink">Trip Recorder</a></li>
                 <li><a href="#" id="analysisLink">Analysis</a></li>
                 <li><a href="#" id="financialRecordsLink">Financial Records</a></li>
                 <li><a href="#" id="tripTrackerLink">Trip Tracker</a></li>
                 <li><a href="#" id="patientAnalysisLink">Patient Analysis</a></li>
-                <li><a href="#" id="adminLink">Admin Panel</a></li>
                 <li><a href="#" id="logoutLink">Logout</a></li>
             </ul>
         </nav>
@@ -27,91 +25,80 @@
 
     <!-- Main Content Section -->
     <main id="mainContent">
-        <section>
-            <h1>Welcome to the Ambulance Management System</h1>
-            <p>Manage and analyze trips, track finances, and oversee patient details with ease.</p>
-        </section>
+        <!-- Trip Recorder Section -->
+        <div id="tripRecorder" style="display: none;">
+            <h2>Record a New Trip</h2>
+            <form id="tripForm" class="form-style">
+                <input type="text" id="patientName" placeholder="Patient Name" required>
+                <textarea id="patientDetails" placeholder="Patient Details" required></textarea>
+                <input type="text" id="fromCity" placeholder="From City" required>
+                <input type="text" id="fromHospital" placeholder="From Hospital" required>
+                <input type="text" id="toCity" placeholder="To City" required>
+                <input type="text" id="toHospital" placeholder="To Hospital" required>
+                <input type="text" id="driverName" placeholder="Driver Name" required>
+                <input type="text" id="nursingStaffName" placeholder="Nursing Staff Name" required>
+                <select id="patientStatus" required>
+                    <option value="">Select Patient Status</option>
+                    <option value="stable">Stable</option>
+                    <option value="critical">Critical</option>
+                    <option value="unpredictable">Unpredictable</option>
+                </select>
+                <textarea id="patientDescription" placeholder="Patient Description"></textarea>
+                <input type="number" id="distance" placeholder="Distance (km)">
+                <input type="number" id="chargePerKm" placeholder="Charge per km (INR)">
+                <select id="ambulanceNumber" required>
+                    <option value="">Select Ambulance Number</option>
+                    <option value="1">Ambulance 1</option>
+                    <option value="2">Ambulance 2</option>
+                    <option value="3">Ambulance 3</option>
+                    <option value="4">Ambulance 4</option>
+                    <option value="5">Ambulance 5</option>
+                    <option value="6">Ambulance 6</option>
+                </select>
+                <input type="number" id="amountCharged" placeholder="Amount Charged (INR)" required>
+                <fieldset>
+                    <legend>Expenditure (INR)</legend>
+                    <input type="number" id="driverExpenditure" placeholder="Driver">
+                    <input type="number" id="fuelExpenditure" placeholder="Fuel">
+                    <input type="number" id="maintenanceExpenditure" placeholder="Maintenance">
+                    <input type="number" id="miscellaneousExpenditure" placeholder="Miscellaneous">
+                    <input type="number" id="nursingStaffExpenditure" placeholder="Nursing Staff">
+                </fieldset>
+                <label>
+                    <input type="checkbox" id="isCancelled">
+                    Trip Cancelled
+                </label>
+                <button type="submit">Submit Trip</button>
+            </form>
+        </div>
+
+        <!-- Analysis Section -->
+        <div id="analysis" style="display: none;">
+            <h2>Financial Analysis</h2>
+            <div id="financialSummary"></div>
+            <canvas id="incomeChart"></canvas>
+        </div>
+
+        <!-- Financial Records Section -->
+        <div id="financialRecords" style="display: none;">
+            <h2>Financial Records</h2>
+            <div id="financialRecordsTable"></div>
+        </div>
+
+        <!-- Trip Tracker Section -->
+        <div id="tripTracker" style="display: none;">
+            <h2>Track Trips</h2>
+            <div id="tripList"></div>
+        </div>
+
+        <!-- Patient Analysis Section -->
+        <div id="patientAnalysis" style="display: none;">
+            <h2>Patient Analysis</h2>
+            <div id="patientStats"></div>
+        </div>
     </main>
-
-    <!-- Trip Recorder Section -->
-    <div id="tripRecorder" style="display: none;">
-        <h2>Record a New Trip</h2>
-        <form id="tripForm" class="form-style">
-            <input type="text" id="patientName" placeholder="Patient Name" required>
-            <textarea id="patientDetails" placeholder="Patient Details" required></textarea>
-            <input type="text" id="fromCity" placeholder="From City" required>
-            <input type="text" id="fromHospital" placeholder="From Hospital" required>
-            <input type="text" id="toCity" placeholder="To City" required>
-            <input type="text" id="toHospital" placeholder="To Hospital" required>
-            <input type="text" id="driverName" placeholder="Driver Name" required>
-            <input type="text" id="nursingStaffName" placeholder="Nursing Staff Name" required>
-            <select id="patientStatus" required>
-                <option value="">Select Patient Status</option>
-                <option value="stable">Stable</option>
-                <option value="critical">Critical</option>
-                <option value="unpredictable">Unpredictable</option>
-            </select>
-            <textarea id="patientDescription" placeholder="Patient Description"></textarea>
-            <input type="number" id="distance" placeholder="Distance (km)">
-            <input type="number" id="chargePerKm" placeholder="Charge per km (INR)">
-            <select id="ambulanceNumber" required>
-                <option value="">Select Ambulance Number</option>
-                <option value="1">Ambulance 1</option>
-                <option value="2">Ambulance 2</option>
-                <option value="3">Ambulance 3</option>
-                <option value="4">Ambulance 4</option>
-                <option value="5">Ambulance 5</option>
-                <option value="6">Ambulance 6</option>
-            </select>
-            <input type="number" id="amountCharged" placeholder="Amount Charged (INR)" required>
-            <fieldset>
-                <legend>Expenditure (INR)</legend>
-                <input type="number" id="driverExpenditure" placeholder="Driver">
-                <input type="number" id="fuelExpenditure" placeholder="Fuel">
-                <input type="number" id="maintenanceExpenditure" placeholder="Maintenance">
-                <input type="number" id="miscellaneousExpenditure" placeholder="Miscellaneous">
-                <input type="number" id="nursingStaffExpenditure" placeholder="Nursing Staff">
-            </fieldset>
-            <label>
-                <input type="checkbox" id="isCancelled">
-                Trip Cancelled
-            </label>
-            <button type="submit">Submit Trip</button>
-        </form>
-    </div>
-
-    <!-- Analysis Section -->
-    <div id="analysis" style="display: none;">
-        <h2>Financial Analysis</h2>
-        <div id="financialSummary"></div>
-        <canvas id="incomeChart"></canvas>
-    </div>
-
-    <!-- Financial Records Section -->
-    <div id="financialRecords" style="display: none;">
-        <h2>Financial Records</h2>
-        <div id="financialRecordsTable"></div>
-    </div>
-
-    <!-- Trip Tracker Section -->
-    <div id="tripTracker" style="display: none;">
-        <h2>Track Trips</h2>
-        <div id="tripList"></div>
-    </div>
-
-    <!-- Patient Analysis Section -->
-    <div id="patientAnalysis" style="display: none;">
-        <h2>Patient Analysis</h2>
-        <div id="patientStats"></div>
-    </div>
-
-    <!-- Admin Panel Section -->
-    <div id="adminPanel" style="display: none;">
-        <h2>Admin Panel</h2>
-        <div id="userManagement"></div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script src="app.js"></script>
 </body>
-</html>
+                                                                                    </html>
