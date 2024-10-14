@@ -111,6 +111,7 @@
                         <th>Amount Charged</th>
                         <th>Expenditure</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="tripData">
@@ -121,6 +122,7 @@
         <div id="financialRecords">
             <h2>Financial Records</h2>
             <div id="financialAnalysis"></div>
+            <canvas id="expenditureBreakdownChart"></canvas>
         </div>
         
         <div id="tripTracking">
@@ -131,6 +133,21 @@
         <div id="patientAnalysis">
             <h2>Patient Analysis</h2>
             <div id="patientAnalysisData"></div>
+            <canvas id="patientStatusChart"></canvas>
+        </div>
+        
+        <div id="dataExportSection">
+            <h2>Data Export and Reports</h2>
+            <button id="exportAllData">Export All Data</button>
+            <div>
+                <select id="reportType">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+                <button id="generateReport">Generate Report</button>
+            </div>
         </div>
     </div>
 
