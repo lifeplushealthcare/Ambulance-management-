@@ -132,7 +132,7 @@ fieldset {
 }
 
 /* Summary Cards */
-#financialSummary, #recordsList, #tripList, #patientStats, #userManagement {
+#financialSummary, #tripList, #patientStats {
     margin-top: 2rem;
     background-color: white;
     padding: 20px;
@@ -143,10 +143,8 @@ fieldset {
 }
 
 #financialSummary:hover, 
-#recordsList:hover, 
 #tripList:hover, 
-#patientStats:hover, 
-#userManagement:hover {
+#patientStats:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -187,6 +185,7 @@ tr:hover {
 @media screen and (max-width: 768px) {
     nav ul {
         flex-direction: column;
+        align-items: center;
     }
 
     form {
@@ -197,7 +196,7 @@ tr:hover {
         margin: 20px;
     }
 
-    #financialSummary, #recordsList, #tripList, #patientStats, #userManagement {
+    #financialSummary, #tripList, #patientStats {
         padding: 10px;
     }
 }
