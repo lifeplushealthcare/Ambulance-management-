@@ -6,7 +6,6 @@ const financialRecords = document.getElementById('financialRecords');
 const tripTracker = document.getElementById('tripTracker');
 const patientAnalysis = document.getElementById('patientAnalysis');
 const adminPanel = document.getElementById('adminPanel');
-const loginForm = document.getElementById('loginForm');
 
 // Navigation
 document.getElementById('homeLink').addEventListener('click', showHome);
@@ -16,37 +15,12 @@ document.getElementById('financialRecordsLink').addEventListener('click', showFi
 document.getElementById('tripTrackerLink').addEventListener('click', showTripTracker);
 document.getElementById('patientAnalysisLink').addEventListener('click', showPatientAnalysis);
 document.getElementById('adminLink').addEventListener('click', showAdminPanel);
-document.getElementById('loginLink').addEventListener('click', showLoginForm);
-document.getElementById('logoutLink').addEventListener('click', logout);
-
-// Simple authentication
-let currentUser = null;
-
-document.getElementById('login').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    // In a real app, you'd validate against a server. Here we're just checking if the email contains "admin"
-    if (email.includes('admin') && password === 'password') {
-        currentUser = { email, isAdmin: true };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        showHome();
-    } else {
-        alert('Login failed. Please check your credentials.');
-    }
-});
-
-function logout() {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    showHome();
-}
 
 // Trip Recorder
 document.getElementById('tripForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const tripData = {
-        id: Date.now(), // use timestamp as a simple unique id
+        id: Date.now(),
         patientName: document.getElementById('patientName').value,
         patientDetails: document.getElementById('patientDetails').value,
         fromCity: document.getElementById('fromCity').value,
@@ -143,7 +117,7 @@ function showFinancialRecords() {
     financialRecords.style.display = 'block';
     
     let trips = JSON.parse(localStorage.getItem('trips')) || [];
-    let recordsHTML = '<table><tr><th>Date</th><th>Amount Charged</th><th>Total Expenditure</th></tr>';
+    let recordsHTML = '<table class="styled-table"><tr><th>Date</th><th>Amount Charged</th><th>Total Expenditure</th></tr>';
     
     trips.forEach((trip) => {
         const totalExpenditure = Object.values(trip.expenditure).reduce((sum, value) => sum + parseFloat(value), 0);
@@ -159,6 +133,7 @@ function showFinancialRecords() {
     document.getElementById('financialRecordsTable').innerHTML = recordsHTML;
 }
 
+// Utility Functions
 function hideAllSections() {
     const sections = document.querySelectorAll('section');
     sections.forEach(section => section.style.display = 'none');
@@ -187,9 +162,4 @@ function showPatientAnalysis() {
 function showAdminPanel() {
     hideAllSections();
     adminPanel.style.display = 'block';
-}
-
-function showLoginForm() {
-    hideAllSections();
-    loginForm.style.display = 'block';
 }
