@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambulance Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" id="homeLink">Home</a></li>
+            <li><a href="#" id="tripRecorderLink">Trip Recorder</a></li>
+            <li><a href="#" id="analysisLink">Analysis</a></li>
+            <li><a href="#" id="financialRecordsLink">Financial Records</a></li>
+            <li><a href="#" id="tripTrackerLink">Trip Tracker</a></li>
+            <li><a href="#" id="patientAnalysisLink">Patient Analysis</a></li>
+            <li><a href="#" id="adminLink">Admin Panel</a></li>
+            <li><a href="#" id="loginLink">Login</a></li>
+            <li><a href="#" id="logoutLink">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main id="mainContent">
+        <!-- Content will be dynamically loaded here -->
+    </main>
+
+    <div id="tripRecorder" style="display: none;">
+        <h2>Trip Recorder</h2>
+        <form id="tripForm">
+            <input type="text" id="patientName" placeholder="Patient Name" required>
+            <textarea id="patientDetails" placeholder="Patient Details" required></textarea>
+            <input type="text" id="fromCity" placeholder="From City" required>
+            <input type="text" id="fromHospital" placeholder="From Hospital" required>
+            <input type="text" id="toCity" placeholder="To City" required>
+            <input type="text" id="toHospital" placeholder="To Hospital" required>
+            <input type="text" id="driverName" placeholder="Driver Name" required>
+            <input type="text" id="nursingStaffName" placeholder="Nursing Staff Name" required>
+            <select id="patientStatus" required>
+                <option value="">Select Patient Status</option>
+                <option value="stable">Stable</option>
+                <option value="critical">Critical</option>
+                <option value="unpredictable">Unpredictable</option>
+            </select>
+            <textarea id="patientDescription" placeholder="Patient Description"></textarea>
+            <input type="number" id="distance" placeholder="Distance (km)">
+            <input type="number" id="chargePerKm" placeholder="Charge per km (INR)">
+            <select id="ambulanceNumber" required>
+                <option value="">Select Ambulance Number</option>
+                <option value="1">Ambulance 1</option>
+                <option value="2">Ambulance 2</option>
+                <option value="3">Ambulance 3</option>
+                <option value="4">Ambulance 4</option>
+                <option value="5">Ambulance 5</option>
+                <option value="6">Ambulance 6</option>
+            </select>
+            <input type="number" id="amountCharged" placeholder="Amount Charged (INR)" required>
+            <fieldset>
+                <legend>Expenditure (INR)</legend>
+                <input type="number" id="driverExpenditure" placeholder="Driver">
+                <input type="number" id="fuelExpenditure" placeholder="Fuel">
+                <input type="number" id="maintenanceExpenditure" placeholder="Maintenance">
+                <input type="number" id="miscellaneousExpenditure" placeholder="Miscellaneous">
+                <input type="number" id="nursingStaffExpenditure" placeholder="Nursing Staff">
+            </fieldset>
+            <label>
+                <input type="checkbox" id="isCancelled">
+                Trip Cancelled
+            </label>
+            <button type="submit">Submit Trip</button>
+        </form>
+    </div>
+
+    <div id="analysis" style="display: none;">
+        <h2>Analysis</h2>
+        <div id="financialSummary"></div>
+        <canvas id="incomeChart"></canvas>
+    </div>
+
+    <div id="financialRecords" style="display: none;">
+        <h2>Financial Records</h2>
+        <div id="recordsList"></div>
+    </div>
+
+    <div id="tripTracker" style="display: none;">
+        <h2>Trip Tracker</h2>
+        <div id="tripList"></div>
+    </div>
+
+    <div id="patientAnalysis" style="display: none;">
+        <h2>Patient Analysis</h2>
+        <div id="patientStats"></div>
+    </div>
+
+    <div id="adminPanel" style="display: none;">
+        <h2>Admin Panel</h2>
+        <div id="userManagement"></div>
+    </div>
+
+    <div id="loginForm" style="display: none;">
+        <h2>Login</h2>
+        <form id="login">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
