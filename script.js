@@ -1,69 +1,117 @@
-// Initialize trips data
+// Initialize trips array from localStorage or create an empty array
 let trips = JSON.parse(localStorage.getItem('trips')) || [];
 
-// Function to save trips to local storage
+// DOM elements
+const tripForm = document.getElementById('tripForm');
+const tripTable = document.getElementById('tripData');
+const analysisResult = document.getElementById('analysisResult');
+const incomeExpenditureChart = document.getElementById('incomeExpenditureChart');
+
+// Event listeners
+tripForm.addEventListener('submit', handleTripSubmission);
+document.getElementById('cancelTrip').addEventListener('click', handleTripCancellation);
+
+// Handle trip submission
+function handleTripSubmission(e) {
+    e.preventDefault();
+    
+    const newTrip = {
+        patientName: document.getElementById('patientName').value,
+        patientDetails: document.getElementById('patientDetails').value,
+        fromCity: document.getElementById('fromCity').value,
+        fromHospital: document.getElementById('fromHospital').value,
+        toCity: document.getElementById('toCity').value,
+        toHospital: document.getElementById('toHospital').value,
+        driverName: document.getElementById('driverName').value,
+        nursingStaff: document.getElementById('nursingStaff').value,
+        patientStatus: document.getElementById('patientStatus').value,
+        statusDescription: document.getElementById('statusDescription').value,
+        distance: document.getElementById('distance').value,
+        chargePerKm: document.getElementById('chargePerKm').value,
+        ambulanceNumber: document.getElementById('ambulanceNumber').value,
+        amountCharged: parseFloat(document.getElementById('amountCharged').value),
+        expenditure: parseFloat(document.getElementById('expenditure').value),
+        driverExpenditure: parseFloat(document.getElementById('driverExpenditure').value),
+        fuelExpenditure: parseFloat(document.getElementById('fuelExpenditure').value),
+        maintenanceExpenditure: parseFloat(document.getElementById('maintenanceExpenditure').value),
+        miscellaneousExpenditure: parseFloat(document.getElementById('miscellaneousExpenditure').value),
+        nursingExpenditure: parseFloat(document.getElementById('nursingExpenditure').value),
+        status: 'Completed',
+        date: new Date().toISOString()
+    };
+
+    trips.push(newTrip);
+    saveTrips();
+    updateTripTable();
+    updateAnalysis();
+    tripForm.reset();
+}
+
+// Handle trip cancellation
+function handleTripCancellation() {
+    const cancelledTrip = {
+        patientName: document.getElementById('patientName').value,
+        fromCity: document.getElementById('fromCity').value,
+        toCity: document.getElementById('toCity').value,
+        status: 'Cancelled',
+        date: new Date().toISOString()
+    };
+
+    trips.push(cancelledTrip);
+    saveTrips();
+    updateTripTable();
+    tripForm.reset();
+}
+
+// Save trips to localStorage
 function saveTrips() {
     localStorage.setItem('trips', JSON.stringify(trips));
 }
 
-// Function to display trips in the table
-function displayTrips() {
-    const tripData = document.getElementById('tripData');
-    tripData.innerHTML = '';
-    trips.forEach(trip => {
-        const row = `<tr>
+// Update trip table
+function updateTripTable() {
+    tripTable.innerHTML = '';
+    trips.forEach((trip, index) => {
+        const row = tripTable.insertRow();
+        row.innerHTML = `
             <td>${trip.patientName}</td>
             <td>${trip.fromCity}</td>
             <td>${trip.toCity}</td>
-            <td>${trip.amountCharged} INR</td>
-            <td>${trip.expenditure} INR</td>
-        </tr>`;
-        tripData.innerHTML += row;
+            <td>${trip.amountCharged || 'N/A'}</td>
+            <td>${trip.expenditure || 'N/A'}</td>
+            <td>${trip.status}</td>
+        `;
     });
 }
 
-// Function to calculate and display statistics
-function calculateStatistics() {
-    const analysisResult = document.getElementById('analysisResult');
-    let totalIncome = 0;
-    let totalExpenditure = 0;
-
-    trips.forEach(trip => {
-        totalIncome += parseFloat(trip.amountCharged);
-        totalExpenditure += parseFloat(trip.expenditure);
-    });
-
+// Update analysis
+function updateAnalysis() {
+    const completedTrips = trips.filter(trip => trip.status === 'Completed');
+    const totalIncome = completedTrips.reduce((sum, trip) => sum + trip.amountCharged, 0);
+    const totalExpenditure = completedTrips.reduce((sum, trip) => sum + trip.expenditure, 0);
     const netProfit = totalIncome - totalExpenditure;
 
     analysisResult.innerHTML = `
-        <h3>Statistics</h3>
-        <p>Total Income: ${totalIncome} INR</p>
-        <p>Total Expenditure: ${totalExpenditure} INR</p>
-        <p>Net Profit: ${netProfit} INR</p>
+        <p>Total Income: ₹${totalIncome.toFixed(2)}</p>
+        <p>Total Expenditure: ₹${totalExpenditure.toFixed(2)}</p>
+        <p>Net Profit: ₹${netProfit.toFixed(2)}</p>
     `;
 
-    // Generate chart
-    generateChart(totalIncome, totalExpenditure);
+    updateIncomeExpenditureChart(totalIncome, totalExpenditure);
 }
 
-// Function to generate income/expenditure chart
-function generateChart(totalIncome, totalExpenditure) {
-    const ctx = document.getElementById('incomeExpenditureChart').getContext('2d');
-    const chart = new Chart(ctx, {
+// Update income/expenditure chart
+function updateIncomeExpenditureChart(income, expenditure) {
+    const ctx = incomeExpenditureChart.getContext('2d');
+    new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Total Income', 'Total Expenditure'],
+            labels: ['Income', 'Expenditure'],
             datasets: [{
                 label: 'Amount (INR)',
-                data: [totalIncome, totalExpenditure],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
+                data: [income, expenditure],
+                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
                 borderWidth: 1
             }]
         },
@@ -77,76 +125,6 @@ function generateChart(totalIncome, totalExpenditure) {
     });
 }
 
-// Handle form submission
-document.getElementById('tripForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent form from submitting normally
-
-    // Get input values
-    const patientName = document.getElementById('patientName').value;
-    const patientDetails = document.getElementById('patientDetails').value;
-    const fromCity = document.getElementById('fromCity').value;
-    const fromHospital = document.getElementById('fromHospital').value;
-    const toCity = document.getElementById('toCity').value;
-    const toHospital = document.getElementById('toHospital').value;
-    const driverName = document.getElementById('driverName').value;
-    const nursingStaff = document.getElementById('nursingStaff').value;
-    const patientStatus = document.getElementById('patientStatus').value;
-    const statusDescription = document.getElementById('statusDescription').value;
-    const distance = document.getElementById('distance').value || 0; // Optional
-    const chargePerKm = document.getElementById('chargePerKm').value || 0; // Optional
-    const ambulanceNumber = document.getElementById('ambulanceNumber').value;
-    const amountCharged = document.getElementById('amountCharged').value;
-    const expenditure = document.getElementById('expenditure').value;
-    const driverExpenditure = document.getElementById('driverExpenditure').value;
-    const fuelExpenditure = document.getElementById('fuelExpenditure').value;
-    const maintenanceExpenditure = document.getElementById('maintenanceExpenditure').value;
-    const miscellaneousExpenditure = document.getElementById('miscellaneousExpenditure').value;
-    const nursingExpenditure = document.getElementById('nursingExpenditure').value;
-
-    // Create a trip object
-    const trip = {
-        patientName,
-        patientDetails,
-        fromCity,
-        fromHospital,
-        toCity,
-        toHospital,
-        driverName,
-        nursingStaff,
-        patientStatus,
-        statusDescription,
-        distance,
-        chargePerKm,
-        ambulanceNumber,
-        amountCharged,
-        expenditure,
-        driverExpenditure,
-        fuelExpenditure,
-        maintenanceExpenditure,
-        miscellaneousExpenditure,
-        nursingExpenditure,
-    };
-
-    // Add trip to trips array and save to local storage
-    trips.push(trip);
-    saveTrips();
-    displayTrips();
-    calculateStatistics();
-
-    // Reset form
-    document.getElementById('tripForm').reset();
-});
-
-// Cancel Trip Functionality (Remove trip data)
-document.getElementById('cancelTrip').addEventListener('click', function () {
-    const lastTrip = trips.pop(); // Remove the last trip
-    saveTrips();
-    displayTrips();
-    calculateStatistics();
-});
-
-// Load trips when the page loads
-window.onload = function () {
-    displayTrips();
-    calculateStatistics();
-};
+// Initialize the page
+updateTripTable();
+updateAnalysis();
