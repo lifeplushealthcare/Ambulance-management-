@@ -5,29 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ambulance Management System</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#" id="homeLink">Home</a></li>
-            <li><a href="#" id="tripRecorderLink">Trip Recorder</a></li>
-            <li><a href="#" id="analysisLink">Analysis</a></li>
-            <li><a href="#" id="financialRecordsLink">Financial Records</a></li>
-            <li><a href="#" id="tripTrackerLink">Trip Tracker</a></li>
-            <li><a href="#" id="patientAnalysisLink">Patient Analysis</a></li>
-            <li><a href="#" id="adminLink">Admin Panel</a></li>
-            <li><a href="#" id="loginLink">Login</a></li>
-            <li><a href="#" id="logoutLink">Logout</a></li>
-        </ul>
-    </nav>
 
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" id="homeLink">Home</a></li>
+                <li><a href="#" id="tripRecorderLink">Trip Recorder</a></li>
+                <li><a href="#" id="analysisLink">Analysis</a></li>
+                <li><a href="#" id="financialRecordsLink">Financial Records</a></li>
+                <li><a href="#" id="tripTrackerLink">Trip Tracker</a></li>
+                <li><a href="#" id="patientAnalysisLink">Patient Analysis</a></li>
+                <li><a href="#" id="adminLink">Admin Panel</a></li>
+                <li><a href="#" id="logoutLink">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
     <main id="mainContent">
-        <!-- Content will be dynamically loaded here -->
+        <section>
+            <h1>Welcome to the Ambulance Management System</h1>
+            <p>Manage and analyze trips, track finances, and oversee patient details with ease.</p>
+        </section>
     </main>
 
+    <!-- Trip Recorder Section -->
     <div id="tripRecorder" style="display: none;">
-        <h2>Trip Recorder</h2>
-        <form id="tripForm">
+        <h2>Record a New Trip</h2>
+        <form id="tripForm" class="form-style">
             <input type="text" id="patientName" placeholder="Patient Name" required>
             <textarea id="patientDetails" placeholder="Patient Details" required></textarea>
             <input type="text" id="fromCity" placeholder="From City" required>
@@ -71,39 +80,35 @@
         </form>
     </div>
 
+    <!-- Analysis Section -->
     <div id="analysis" style="display: none;">
-        <h2>Analysis</h2>
+        <h2>Financial Analysis</h2>
         <div id="financialSummary"></div>
         <canvas id="incomeChart"></canvas>
     </div>
 
+    <!-- Financial Records Section -->
     <div id="financialRecords" style="display: none;">
         <h2>Financial Records</h2>
-        <div id="recordsList"></div>
+        <div id="financialRecordsTable"></div>
     </div>
 
+    <!-- Trip Tracker Section -->
     <div id="tripTracker" style="display: none;">
-        <h2>Trip Tracker</h2>
+        <h2>Track Trips</h2>
         <div id="tripList"></div>
     </div>
 
+    <!-- Patient Analysis Section -->
     <div id="patientAnalysis" style="display: none;">
         <h2>Patient Analysis</h2>
         <div id="patientStats"></div>
     </div>
 
+    <!-- Admin Panel Section -->
     <div id="adminPanel" style="display: none;">
         <h2>Admin Panel</h2>
         <div id="userManagement"></div>
-    </div>
-
-    <div id="loginForm" style="display: none;">
-        <h2>Login</h2>
-        <form id="login">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
